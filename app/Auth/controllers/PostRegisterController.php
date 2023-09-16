@@ -10,6 +10,8 @@ class PostRegisterController
 
     public function PostRegister()
     {
+        // session_start(); // Start the session
+
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // Get JSON data from the request body
             $data = file_get_contents("php://input");
@@ -24,8 +26,8 @@ class PostRegisterController
                 try {
                     // Check if the email is valid
                     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                        echo json_encode(["success" => false, "error" => "Invalid email format"]);
                         http_response_code(400); // Set HTTP status code to 400 (Bad Request)
+                        echo json_encode(["success" => false, "error" => "Invalid email format"]);
                         return;
                     }
 
@@ -33,9 +35,11 @@ class PostRegisterController
                     $postRegisterModel = new PostRegisterModel($this->database);
 
                     // Call the postRegisterModel method to handle registration
-                    $createUser = $postRegisterModel->RegisterModel($username, $email, $password);
+                    $user_id = $postRegisterModel->registerUser($username, $email, $password);
 
-                    if ($createUser) {
+                    if ($user_id !== false) {
+                        // Registration was successful, store user_id in the session
+                        $_SESSION["user_id"] = $user_id;
                         $response = ["success" => true];
                         http_response_code(200); // Set HTTP status code to 200 (OK)
                     } else {

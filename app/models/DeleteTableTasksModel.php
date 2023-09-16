@@ -7,6 +7,12 @@ class DeleteTaskTablesModel {
     }
 
     public function DeleteTaskModel($id) {
+        if (!isset($_SESSION["user_id"])) {
+            http_response_code(401); // Unauthorized
+            echo json_encode(["error" => "Unauthorized"]);
+            return;
+        }
+
         try {
             $DeletTask = "DELETE FROM Tasks WHERE id = :id";
             $DeletTaskParam = $this->database->prepare($DeletTask);

@@ -26,7 +26,7 @@ class PostRegisterModel
         }
     }
 
-    public function RegisterModel($username, $email, $password)
+    public function registerUser($username, $email, $password)
     {
         // Check if the email already exists
         if ($this->isEmailExists($email)) {
@@ -54,6 +54,12 @@ class PostRegisterModel
 
             // Check for errors
             if ($execUser->rowCount() > 0) {
+                // Retrieve the newly inserted user's ID
+                $user_id = $this->database->lastInsertId();
+
+                // Set the user_id in the session
+                $_SESSION["user_id"] = $user_id;
+
                 return true; // Registration successful
             } else {
                 return false; // Registration failed
@@ -65,5 +71,6 @@ class PostRegisterModel
         }
     }
 }
+
 
 ?>

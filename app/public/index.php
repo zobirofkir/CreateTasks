@@ -4,6 +4,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
+
+
 $username = "admin";
 $password = "admin";
 
@@ -39,6 +41,8 @@ require_once "/var/www/html/GestionPhp/app/controllers/DeleteController.php";
 require_once "/var/www/html/GestionPhp/app/Auth/models/PostRegister.php";
 require_once "/var/www/html/GestionPhp/app/Auth/controllers/PostRegisterController.php";
 
+require_once "/var/www/html/GestionPhp/app/Auth/models/PostLogin.php";
+require_once "/var/www/html/GestionPhp/app/Auth/controllers/PostLoginController.php";
 
 if ($_SERVER["REQUEST_URI"] === "/GestionPhp/app/public/index.php/post" && $_SERVER["REQUEST_METHOD"] === "POST") {
     header("Content-Type: application/json");
@@ -46,28 +50,31 @@ if ($_SERVER["REQUEST_URI"] === "/GestionPhp/app/public/index.php/post" && $_SER
     $PostData = new PostTaskController($database);
     $result = $PostData->PostTask();
 
-    if ($result === true) {
-        $response = ["success" => true];
+    // Check if $result is not null and is an array
+    if (is_array($result) && isset($result["success"])) {
+        if ($result["success"] === true) {
+            $response = ["success" => true];
+        } else {
+            $response = ["success" => false];
+        }
     } else {
+        // Handle the case where $result is null or not an array
         $response = ["success" => false];
     }
 
     // Send the JSON response
     echo json_encode($response);
-} 
+}
 
 
 
 if ($_SERVER["REQUEST_URI"] === '/GestionPhp/app/public/index.php/get/task' && $_SERVER["REQUEST_METHOD"] === "GET") {
-    header("Content-Type: application/json");
-
-    $GetData = new GetTableSql($database);
-    $response = $GetData->GetTableTask();
-    if ($response){
-        echo json_encode($response);
-        return;    
-    }
+    // Include necessary dependencies here, such as the database connection and the GetTableSql class.
+    
+    $GetTableSql = new GetTableSql($database);
+    $GetTableSql->GetTableTask();
 }
+
 
 if ($_SERVER["REQUEST_URI"] === "/GestionPhp/app/public/index.php/update" && $_SERVER["REQUEST_METHOD"] === "PUT") {
     header("Content-Type: application/json");
@@ -113,6 +120,13 @@ if ($_SERVER["REQUEST_URI"] === "/GestionPhp/app/public/index.php/user/register"
     $RegisterPost->PostRegister();
 }
 
+if ($_SERVER["REQUEST_URI"] === "/GestionPhp/app/public/index.php/user/login" && $_SERVER["REQUEST_METHOD"] === "POST") {
+    header("Content-Type: application/json");
+
+
+    $RegisterPost = new LoginController($database);
+    $RegisterPost->loginUser();
+}
 
 
 ?>

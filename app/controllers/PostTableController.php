@@ -3,6 +3,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+session_start(); // Start the session
+
 class PostTaskController
 {
     private $database;
@@ -31,12 +33,30 @@ class PostTaskController
                 $date = htmlspecialchars($array["date"], FILTER_SANITIZE_SPECIAL_CHARS);
                 $status = htmlspecialchars($array["status"], FILTER_SANITIZE_SPECIAL_CHARS);
 
+                // Check if "user_id" exists in the session before accessing it
+                if (isset($_SESSION["user_id"])) {
+                    $user_id = $_SESSION["user_id"];
+                } else {
+                    // Handle the case where "user_id" is not set in the session
+                    http_response_code(401); // Unauthorized
+                    $errorResponse = ["error" => "User not logged in"];
+                    echo json_encode($errorResponse);
+                    return;
+                }
+
+                // Assuming you have a PostTaskModel class
                 $newPost = new PostTaskModel($this->database);
 
-                if ($newPost->PostTask($name, $email, $date, $status)) {
+                $result = $newPost->PostTask($name, $email, $date, $status, $user_id);
+
+                if ($result !== false) {
                     $response = ["success" => true];
                 } else {
-                    $response = ["success" => false];
+                    // Handle the case where PostTaskModel returns false
+                    http_response_code(500); // Internal Server Error
+                    $errorResponse = ["error" => "Failed to create task"];
+                    echo json_encode($errorResponse);
+                    return;
                 }
 
                 echo json_encode($response);
