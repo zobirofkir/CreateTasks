@@ -34,6 +34,12 @@ require_once "/var/www/html/GestionPhp/app/controllers/PutTableController.php";
 require_once "/var/www/html/GestionPhp/app/models/DeleteTableTasksModel.php";
 require_once "/var/www/html/GestionPhp/app/controllers/DeleteController.php";
 
+// Authentication
+
+require_once "/var/www/html/GestionPhp/app/Auth/models/PostRegister.php";
+require_once "/var/www/html/GestionPhp/app/Auth/controllers/PostRegisterController.php";
+
+
 if ($_SERVER["REQUEST_URI"] === "/GestionPhp/app/public/index.php/post" && $_SERVER["REQUEST_METHOD"] === "POST") {
     header("Content-Type: application/json");
 
@@ -90,11 +96,6 @@ if ($_SERVER["REQUEST_URI"] === "/GestionPhp/app/public/index.php/update" && $_S
         $error_response = ["error" => "Missing or invalid data fields"];
         echo json_encode($error_response);
     }
-} else {
-    // Handle other cases or requests
-    http_response_code(404); // Not Found
-    $error_response = ["error" => "Route not found"];
-    echo json_encode($error_response);
 }
 
 if ($_SERVER["REQUEST_URI"] === "/GestionPhp/app/public/index.php/delete" && $_SERVER["REQUEST_METHOD"] === "DELETE") {
@@ -102,8 +103,16 @@ if ($_SERVER["REQUEST_URI"] === "/GestionPhp/app/public/index.php/delete" && $_S
 
     $DeleteParam = new DeleteTasksController($database);
     $DeleteParam->DeleteTasksTableController($id);
-
-    // Note: The response is handled within the DeleteTasksTableController method
 }
+
+if ($_SERVER["REQUEST_URI"] === "/GestionPhp/app/public/index.php/user/register" && $_SERVER["REQUEST_METHOD"] === "POST") {
+    header("Content-Type: application/json");
+
+
+    $RegisterPost = new PostRegisterController($database);
+    $RegisterPost->PostRegister();
+}
+
+
 
 ?>
