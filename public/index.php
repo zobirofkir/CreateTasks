@@ -44,7 +44,7 @@ require_once "/var/www/html/GestionPhp/app/Auth/controllers/PostRegisterControll
 require_once "/var/www/html/GestionPhp/app/Auth/models/PostLogin.php";
 require_once "/var/www/html/GestionPhp/app/Auth/controllers/PostLoginController.php";
 
-if ($_SERVER["REQUEST_URI"] === "/GestionPhp/app/public/index.php/post" && $_SERVER["REQUEST_METHOD"] === "POST") {
+if ($_SERVER["REQUEST_URI"] === "/GestionPhp/public/index.php/post" && $_SERVER["REQUEST_METHOD"] === "POST") {
     header("Content-Type: application/json");
 
     $PostData = new PostTaskController($database);
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_URI"] === "/GestionPhp/app/public/index.php/post" && $_SER
 
 
 
-if ($_SERVER["REQUEST_URI"] === '/GestionPhp/app/public/index.php/get/task' && $_SERVER["REQUEST_METHOD"] === "GET") {
+if ($_SERVER["REQUEST_URI"] === '/GestionPhp/public/index.php/get/task' && $_SERVER["REQUEST_METHOD"] === "GET") {
     // Include necessary dependencies here, such as the database connection and the GetTableSql class.
     
     $GetTableSql = new GetTableSql($database);
@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_URI"] === '/GestionPhp/app/public/index.php/get/task' && $
 }
 
 
-if ($_SERVER["REQUEST_URI"] === "/GestionPhp/app/public/index.php/update" && $_SERVER["REQUEST_METHOD"] === "PUT") {
+if ($_SERVER["REQUEST_URI"] === "/GestionPhp/public/index.php/update" && $_SERVER["REQUEST_METHOD"] === "PUT") {
     header("Content-Type: application/json");
 
     // Assuming you receive the data as JSON in the request body
@@ -105,14 +105,14 @@ if ($_SERVER["REQUEST_URI"] === "/GestionPhp/app/public/index.php/update" && $_S
     }
 }
 
-if ($_SERVER["REQUEST_URI"] === "/GestionPhp/app/public/index.php/delete" && $_SERVER["REQUEST_METHOD"] === "DELETE") {
+if ($_SERVER["REQUEST_URI"] === "/GestionPhp/public/index.php/delete" && $_SERVER["REQUEST_METHOD"] === "DELETE") {
     header("Content-Type: application/json");
 
     $DeleteParam = new DeleteTasksController($database);
     $DeleteParam->DeleteTasksTableController($id);
 }
 
-if ($_SERVER["REQUEST_URI"] === "/GestionPhp/app/public/index.php/user/register" && $_SERVER["REQUEST_METHOD"] === "POST") {
+if ($_SERVER["REQUEST_URI"] === "/GestionPhp/public/index.php/user/register" && $_SERVER["REQUEST_METHOD"] === "POST") {
     header("Content-Type: application/json");
 
 
@@ -120,7 +120,7 @@ if ($_SERVER["REQUEST_URI"] === "/GestionPhp/app/public/index.php/user/register"
     $RegisterPost->PostRegister();
 }
 
-if ($_SERVER["REQUEST_URI"] === "/GestionPhp/app/public/index.php/user/login" && $_SERVER["REQUEST_METHOD"] === "POST") {
+if ($_SERVER["REQUEST_URI"] === "/GestionPhp/public/index.php/user/login" && $_SERVER["REQUEST_METHOD"] === "POST") {
     header("Content-Type: application/json");
 
 

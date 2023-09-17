@@ -49,17 +49,23 @@ class PostTaskController
 
                 $result = $newPost->PostTask($name, $email, $date, $status, $user_id);
 
-                if ($result !== false) {
+                if ($result === true) {
                     $response = ["success" => true];
-                } else {
+                } elseif ($result === false) {
                     // Handle the case where PostTaskModel returns false
                     http_response_code(500); // Internal Server Error
                     $errorResponse = ["error" => "Failed to create task"];
                     echo json_encode($errorResponse);
                     return;
+                } else {
+                    // Handle other potential errors here
+                    http_response_code(400); // Bad Request
+                    $errorResponse = ["error" => "Invalid request"];
+                    echo json_encode($errorResponse);
+                    return;
                 }
 
-                echo json_encode($response);
+                echo json_encode($response); // This is the response for a successful task creation
                 return;
             }
         }

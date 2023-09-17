@@ -25,7 +25,7 @@ class LoginController
                     if ($userLogin->verifyPassword($email, $password)) {
                         // Password is correct, perform the redirect
                         $_SESSION['authenticated'] = true; // Set a session variable for authentication
-                        header("Location: /GestionPhp/app/public/index.php/post");
+                        header("Location: /GestionPhp/public/index.php/get/task");
                         exit(); // Exit to prevent further execution
                     } else {
                         // Incorrect password, set appropriate status code
