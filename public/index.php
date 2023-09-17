@@ -24,25 +24,25 @@ try {
 // Set the Content-Type header to indicate JSON response
 header("Content-Type: application/json");
 
-require_once "/var/www/html/GestionPhp/app/models/PostTableTasksModel.php";
-require_once "/var/www/html/GestionPhp/app/controllers/PostTableController.php";
+require_once "app/models/PostTableTasksModel.php";
+require_once "app/controllers/PostTableController.php";
 
-require_once "/var/www/html/GestionPhp/app/models/GetTableTasks.php";
-require_once "/var/www/html/GestionPhp/app/controllers/GetTableController.php";
+require_once "app/models/GetTableTasks.php";
+require_once "app/controllers/GetTableController.php";
 
-require_once "/var/www/html/GestionPhp/app/models/PutTableTasksModel.php";
-require_once "/var/www/html/GestionPhp/app/controllers/PutTableController.php";
+require_once "app/models/PutTableTasksModel.php";
+require_once "app/controllers/PutTableController.php";
 
-require_once "/var/www/html/GestionPhp/app/models/DeleteTableTasksModel.php";
-require_once "/var/www/html/GestionPhp/app/controllers/DeleteController.php";
+require_once "app/models/DeleteTableTasksModel.php";
+require_once "app/controllers/DeleteController.php";
 
 // Authentication
 
-require_once "/var/www/html/GestionPhp/app/Auth/models/PostRegister.php";
-require_once "/var/www/html/GestionPhp/app/Auth/controllers/PostRegisterController.php";
+require_once "app/Auth/models/PostRegister.php";
+require_once "app/Auth/controllers/PostRegisterController.php";
 
-require_once "/var/www/html/GestionPhp/app/Auth/models/PostLogin.php";
-require_once "/var/www/html/GestionPhp/app/Auth/controllers/PostLoginController.php";
+require_once "app/Auth/models/PostLogin.php";
+require_once "app/Auth/controllers/PostLoginController.php";
 
 if ($_SERVER["REQUEST_URI"] === "/GestionPhp/public/index.php/post" && $_SERVER["REQUEST_METHOD"] === "POST") {
     header("Content-Type: application/json");

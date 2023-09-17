@@ -3,19 +3,26 @@ class CreateTableTasks
 {
     private $database;
 
-    public function __construct($database)
+    // Moved the database connection code to the constructor
+    public function __construct()
     {
-        $this->database = $database;
+        $username = "admin";
+        $password = "admin";
+
+        try {
+            // Attempt to establish a database connection
+            $this->database = new PDO("mysql:host=localhost;dbname=Gestion;charset=utf8", $username, $password);
+            // Set PDO error mode to exceptions for better error handling
+            $this->database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            // Handle database connection errors
+            echo "Connection failed: " . $e->getMessage();
+            exit(); // Terminate the script if there's a database connection error
+        }
     }
 
     public function createTable()
     {
-        if (!isset($_SESSION["user_id"])) {
-            http_response_code(401); // Unauthorized
-            echo json_encode(["error" => "Unauthorized"]);
-            return;
-        }
-
         $createTableSql = "CREATE TABLE IF NOT EXISTS Tasks (
             id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
             name VARCHAR(255) NOT NULL, 
@@ -39,4 +46,8 @@ class CreateTableTasks
         }
     }
 }
+
+// Create an instance of CreateTableTasks and establish a database connection
+$Exec = new CreateTableTasks();
+$Exec->createTable();
 ?>
